@@ -11,7 +11,7 @@ public class SolucionPracticaNba {
 			+ File.separator + "src"
 			+ File.separator + "Practica01"
 			+ File.separator + "NbaStats.csv";
-	private static ArrayList<Player> nbaPlayers;
+	public static ArrayList<Player> nbaPlayers;
 	public static int topN = 10;
 	
 	public static int size() {
@@ -22,6 +22,7 @@ public class SolucionPracticaNba {
 		cargarArchivo(rutaArchivo);
 		long principio = System.currentTimeMillis();
 		mejoresJugadores();
+		//mejoresJugadoresConMejora();
 		long fin = System.currentTimeMillis();
 		System.out.println("\n" + "Tiempo total: " + (fin - principio) + " milisegundos");
 	}
@@ -31,7 +32,7 @@ public class SolucionPracticaNba {
 			throw new RuntimeException("No hay datos");
 		} else {
 			ArrayList<Player> jugadores = mejoresJugadores(0, nbaPlayers.size() - 1);
-			System.out.println("LOS " + topN + " MEJORES JUGADORES DE TODOS LOS TIEMPOS SON:" + "\n");
+			System.out.println("LOS " + topN + " MEJORES JUGADORES DE TODOS LOS TIEMPOS SON (Con mejora):" + "\n");
 			for (Player p : jugadores) {
 				System.out.println(p);
 			}
@@ -69,6 +70,41 @@ public class SolucionPracticaNba {
 		}
 	 }
 		return aux;
+	}
+	
+	public static void mejoresJugadoresConMejora() {
+		if (nbaPlayers.size() == 0) {
+			throw new RuntimeException("No hay datos");
+		} else {
+			ArrayList<Player> jugadores = new ArrayList<Player>();
+			mejoresJugadoresConMejora(0, nbaPlayers.size() - 1, jugadores);
+			System.out.println("LOS " + topN + " MEJORES JUGADORES DE TODOS LOS TIEMPOS SON (Sin mejora) :" + "\n");
+			for (Player p : jugadores) {
+				System.out.println(p);
+			}
+		}	
+	}
+	
+	public static void mejoresJugadoresConMejora (int inicio, int fin, ArrayList<Player> aux) {
+		if (inicio == fin) {
+			aux.add(nbaPlayers.get(inicio));
+			return;
+		}
+		
+		int mitad = (fin + inicio) / 2;
+		mejoresJugadoresConMejora(inicio, mitad, aux);
+		mejoresJugadoresConMejora(mitad + 1, fin, aux);
+		for (int i = 1; i < aux.size(); i++) {
+			Player player = aux.get(i);
+			int j;
+			for (j = i - 1; j >= 0 && player.getScore() > aux.get(j).getScore(); j--) {
+				aux.set(j + 1, aux.get(j));
+			}
+			aux.set(j + 1, player);
+		}
+		while (aux.size() > topN) {
+			aux.remove(topN);
+		}
 	}
 	
 	public static void cargarArchivo(String rutaArchivo) {
