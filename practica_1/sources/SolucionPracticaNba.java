@@ -21,17 +21,17 @@ public class SolucionPracticaNba {
 	public static void main(String[] args) {
 		cargarArchivo(rutaArchivo);
 		long principio = System.currentTimeMillis();
-		mejoresJugadores();
-		//mejoresJugadoresConMejora();
+		//mejoresJugadoresSinMejora();
+		mejoresJugadoresConMejora();
 		long fin = System.currentTimeMillis();
 		System.out.println("\n" + "Tiempo total: " + (fin - principio) + " milisegundos");
 	}
 	
-	public static ArrayList<Player> mejoresJugadores() {
+	public static ArrayList<Player> mejoresJugadoresConMejora() {
 		if (nbaPlayers.size() == 0) {
 			throw new RuntimeException("No hay datos");
 		} else {
-			ArrayList<Player> jugadores = mejoresJugadores(0, nbaPlayers.size() - 1);
+			ArrayList<Player> jugadores = mejoresJugadoresConMejora(0, nbaPlayers.size() - 1);
 			System.out.println("LOS " + topN + " MEJORES JUGADORES DE TODOS LOS TIEMPOS SON (Con mejora):" + "\n");
 			for (Player p : jugadores) {
 				System.out.println(p);
@@ -40,14 +40,14 @@ public class SolucionPracticaNba {
 		}
 	}
 	
-	public static ArrayList<Player> mejoresJugadores(int principio, int fin) {
+	public static ArrayList<Player> mejoresJugadoresConMejora(int principio, int fin) {
 		ArrayList<Player> aux = new ArrayList<Player>(topN);
 		if (principio == fin) {
 			aux.add(nbaPlayers.get(principio));
 		} else {
 			int media = (principio + fin) / 2;
-		ArrayList<Player> p1 = mejoresJugadores(principio, media);
-		ArrayList<Player> p2 = mejoresJugadores(media + 1, fin);
+		ArrayList<Player> p1 = mejoresJugadoresConMejora(principio, media);
+		ArrayList<Player> p2 = mejoresJugadoresConMejora(media + 1, fin);
 		int i = 0;
 		int j = 0;
 		while (aux.size() < topN && i <= p1.size() - 1 && j <= p2.size() - 1) {
@@ -72,12 +72,12 @@ public class SolucionPracticaNba {
 		return aux;
 	}
 	
-	public static void mejoresJugadoresConMejora() {
+	public static void mejoresJugadoresSinMejora() {
 		if (nbaPlayers.size() == 0) {
 			throw new RuntimeException("No hay datos");
 		} else {
 			ArrayList<Player> jugadores = new ArrayList<Player>();
-			mejoresJugadoresConMejora(0, nbaPlayers.size() - 1, jugadores);
+			mejoresJugadoresSinMejora(0, nbaPlayers.size() - 1, jugadores);
 			System.out.println("LOS " + topN + " MEJORES JUGADORES DE TODOS LOS TIEMPOS SON (Sin mejora) :" + "\n");
 			for (Player p : jugadores) {
 				System.out.println(p);
@@ -85,15 +85,15 @@ public class SolucionPracticaNba {
 		}	
 	}
 	
-	public static void mejoresJugadoresConMejora (int inicio, int fin, ArrayList<Player> aux) {
+	public static void mejoresJugadoresSinMejora (int inicio, int fin, ArrayList<Player> aux) {
 		if (inicio == fin) {
 			aux.add(nbaPlayers.get(inicio));
 			return;
 		}
 		
 		int mitad = (fin + inicio) / 2;
-		mejoresJugadoresConMejora(inicio, mitad, aux);
-		mejoresJugadoresConMejora(mitad + 1, fin, aux);
+		mejoresJugadoresSinMejora(inicio, mitad, aux);
+		mejoresJugadoresSinMejora(mitad + 1, fin, aux);
 		for (int i = 1; i < aux.size(); i++) {
 			Player player = aux.get(i);
 			int j;

@@ -15,7 +15,7 @@ public class TestTop15JUnit5 {
 	public void mejoresJugadores() {
 		SolucionPracticaNba.cargarArchivo(rutaArchivo);
 		SolucionPracticaNba.topN = 15;
-		ArrayList<Player> r = SolucionPracticaNba.mejoresJugadores();
+		ArrayList<Player> r = SolucionPracticaNba.mejoresJugadoresConMejora();
 		assertEquals("[Nombre: Wilt Chamberlain*, Posiciones: [C], Equipos: [PHW, SFW, TOT, PHI, LAL] , con 1153 puntos, "
 				+ "Nombre: Kareem Abdul-Jabbar*, Posiciones: [C], Equipos: [MIL, LAL] , con 1076 puntos, "
 				+ "Nombre: Michael Jordan*, Posiciones: [SG, SF], Equipos: [CHI, WAS] , con 1075 puntos, "

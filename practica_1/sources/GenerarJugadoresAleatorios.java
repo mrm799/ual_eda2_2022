@@ -9,7 +9,7 @@ public class GenerarJugadoresAleatorios {
 		long fin;
 			createNbaRnd(5000000, 15);
 			inicio = System.currentTimeMillis();
-			//SolucionPracticaNba.mejoresJugadores();
+			//SolucionPracticaNba.mejoresJugadoresSinMejora();
 			SolucionPracticaNba.mejoresJugadoresConMejora();
 			fin = System.currentTimeMillis();
 			System.out.println();
